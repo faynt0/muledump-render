@@ -296,10 +296,13 @@ for href in hrefs:
                         fp = int(obj.feedPower.cdata)
                     else:
                         fp = 0
-                    if isinstance(obj.SlotType, list):
-                        slot = int(obj.SlotType[0].cdata)
-                    else:
-                        slot = int(obj.SlotType.cdata)
+                    if hasattr(obj,'SlotType'):
+                        if isinstance(obj.SlotType, list):
+                            slot = int(obj.SlotType[0].cdata)
+                        else:
+                            slot = int(obj.SlotType.cdata)
+
+
                     soulbound = "Soulbound" in dir(obj)
                     utst = 0
                     if "setName" in repr(obj):
@@ -319,7 +322,7 @@ for href in hrefs:
                     else:
                         imageindex = int(imageindex)
                     # checking whether imageindex is hex or decimal is usually pretty good at telling normalIndex, but some items are wrong!
-                    normalIndex = imagename not in ["oryxSanctuaryChars32x32", "chars8x8dEncounters", "chars8x8rPets1", "chars16x16dEncounters2", "playerskins", "petsDivine", "epicHiveChars16x16", "playerskins16"]
+                    normalIndex = imagename not in ["playerskins","oryxSanctuaryChars32x32", "chars8x8dEncounters", "chars8x8rPets1", "chars16x16dEncounters2", "characters", "petsDivine", "epicHiveChars16x16", "playerskins16"]
                     img = load_image(imagename)
 
                     # TODO: manifest.xml has this data, but this seems alright for now
@@ -334,6 +337,9 @@ for href in hrefs:
                         srcx = imgTileSize * (imageindex % srcw)
                         srcy = imgTileSize * (imageindex // srcw)
                     elif imagename == "playerskins":
+                        srcx = 0
+                        srcy = 3 * imgTileSize * imageindex
+                    elif imagename == "characters":
                         srcx = 0
                         srcy = 3 * imgTileSize * imageindex
                     else:
