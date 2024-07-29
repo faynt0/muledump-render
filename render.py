@@ -149,7 +149,8 @@ for href in hrefs:
     if href is not None:
         try:
             if IS_LOCAL:
-                with open(XML_URL + "/" + href, "r") as f:
+                with open(XML_URL + "/" + href, "r", encoding="utf8") as f:
+                    print(href)
                     xmldata = f.read()
             else:
                 xmldata = requests.get(XML_URL + "/" + href).content.decode("utf-8")
